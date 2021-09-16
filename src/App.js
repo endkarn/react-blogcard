@@ -1,33 +1,34 @@
 
-import { render } from '@testing-library/react';
 import React, { Component } from 'react';
 import './App.css';
 
 import BlogCard from './BlogCard';
 import { isArrayEmpty } from './Utills'
 
-class App extends React.Component {
+class App extends Component {
   state = {
-    showBlog: true
+    showBlog: true,
+    blogArray : [
+      {
+        id: 1,
+        title: 'first book edition',
+        description: 'the book from nowhere',
+        likeCount: 0
+      },
+      {
+        id: 2,
+        title: 'first book edition',
+        description: 'the book from nowhere',
+        likeCount: 1
+      },
+      {
+        id: 3,
+        title: 'first book edition',
+        description: 'the book from nowhere',
+        likeCount: 2
+      }
+    ]
   }
-
-  blogArray = [
-    {
-      id: 1,
-      title: 'first book edition',
-      description: 'the book from nowhere'
-    },
-    {
-      id: 2,
-      title: 'first book edition',
-      description: 'the book from nowhere'
-    },
-    {
-      id: 3,
-      title: 'first book edition',
-      description: 'the book from nowhere'
-    }
-  ]
 
 
   blogCard = ''
@@ -50,13 +51,26 @@ class App extends React.Component {
     })
   }
 
+  onLikeBtnClick = (position) => {
+    // alert('Like Clicked at POS : ' + position)
+    const updatedBlogList = this.state.blogArray
+    const updatedBlogObject = updatedBlogList[position]
+
+    updatedBlogObject.likeCount++
+    updatedBlogList[position] = updatedBlogObject
+
+    this.setState({blogArray:updatedBlogList})
+
+    console.log(updatedBlogObject)
+  }
+
   render() {
-    const isEmptyArray = isArrayEmpty(this.blogArray)
+    const isEmptyArray = isArrayEmpty(this.state.blogArray)
 
     if (!isEmptyArray){
-      this.blogCard = this.blogArray.map((item, pos) => {
+      this.blogCard = this.state.blogArray.map((item, pos) => {
         return (
-          <BlogCard key={pos} title={item.title} description={item.description} id={item.id}/>
+          <BlogCard key={pos} title={item.title} description={item.description} blogId={item.id} position={pos} likeCount={item.likeCount} onLikeBtnClick={() => {this.onLikeBtnClick(pos)}}/>
         )
       })
     }

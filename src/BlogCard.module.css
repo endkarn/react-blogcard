@@ -6,3 +6,8 @@
     box-shadow: 0 2px 5px #ccc;
     background-color: cadetblue;
   }
+
+  .LikeCount {
+      font-weight: 600;
+      color: blue;
+  }
